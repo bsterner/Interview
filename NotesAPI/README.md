@@ -16,7 +16,7 @@ The following application is a RESTful, JSON Notes-taking API.  Capabilities inc
 <blockquote><strong>curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X POST -d '{"body" : "Pick up milk!"}' http://localhost/api/notes</strong>
 <p>** Note: Please included the additional header 'Content-Type' as shown above.  I was getting an error using curl when this was omitted.</p></blockquote>
 * [2] Get an individual note 
-<strong><blockquote>curl -i -H "Accept: application/json" -X GET http://localhost/api/notes/1</blockquote></strong>
+<strong><blockquote>curl -i -H "Accept: application/json" -X GET http://localhost/api/notes/0</blockquote></strong>
 * [3] Get all notes
 <strong><blockquote>curl -i -H "Accept: application/json" -X GET http://localhost/api/notes</blockquote></strong>
 * [4] Get all notes containing a text string
@@ -41,10 +41,10 @@ No data persistence framework or Database was used given the time-constraint.  I
 
 ### Answers to 'Additional Design Notes & Consideration'
 
-Q.  How well does your note-searching-api scale or not scale? How would you make your search more efficient?
-A.  So long as the size and number of notes does not grow too large and we have plenty of heap space, our "HashMap DataStore" should function ok.  In a production environment we obviously would care about things like data retention, server stability, design architecture, reporting, etc... and would opt to use at the very least a database (relational or non-relational) to store the data.  I typically opt to implement a data persistence layer as well as I feel it provides the proper decoupling and data abstraction in alignment with what's considered "best practices".  Since our application data is extremely simple (basically Key/Value pairs), a NoSQL database might be the more suitable option.
+<p>Q. How well does your note-searching-api scale or not scale? How would you make your search more efficient?</p>
+<p>A.  So long as the size and number of notes does not grow too large and we have plenty of heap space, our "HashMap DataStore" should function ok.  In a production environment we obviously would care about things like data retention, server stability, design architecture, reporting, etc... and would opt to use at the very least a database (relational or non-relational) to store the data.  I typically opt to implement a data persistence layer as well as I feel it provides the proper decoupling and data abstraction in alignment with what's considered "best practices".  Since our application data is extremely simple (basically key/value pairs), a NoSQL database might be the more suitable option.</p>
 
-Other "performance" improvement strategies might include:
+Other "performance" improvement strategies in general might include:
 
 * Use a caching tool like EhCache or Coherence
 * Add an index to the body value (although this performance is lost with double wild-card searches using %{body}%)
@@ -56,11 +56,11 @@ Other "performance" improvement strategies might include:
 A lot of these seem like overkill given the simplicity of the application, but are performance-improvement strategies nontheless.
 
 How would you add security to your API?
-* Implementing Basic Authentication
-* Using secured URL (https)
+* Implementing Basic Authentication or OAuth
+* Use secure URL (https)
 
 What features should we add to this API next?
-* Delete & Update are the obvious ones that are missing
+* Delete & update are the obvious operations that are missing
 * Adding support for adding or updating multiple notes in a single call
 
 How would you test the API?
