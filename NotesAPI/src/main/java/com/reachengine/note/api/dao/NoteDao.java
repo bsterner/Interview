@@ -26,11 +26,12 @@ public interface NoteDao {
 	public List<Note> getAllNotes(String query);
 
 	/**
-	 * Creates a note using the provided body content.  ID is auto-generated.
+	 * Inserts a note into the datastore using the provided body content.
+	 * ID should be auto-generated upon insertion.
 	 * 
 	 * @param body the body content used to create the note.
 	 * @return the created note
 	 */
-	public Note createNote(String body);
+	public Note insertNote(Note note);
 
 }

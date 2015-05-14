@@ -1,12 +1,14 @@
 package com.reachengine.note.api.dao;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.reachengine.note.api.model.Note;
+import com.reachengine.note.api.persistence.NoteMapper;
 
 /**
  * Data access implementation is simple data structure. In real production
@@ -14,35 +16,31 @@ import com.reachengine.note.api.model.Note;
  * of persistence framework (MyBatis, Hibernate, TopLink, etc...).
  *
  */
+@Repository
 public class NoteDaoImpl implements NoteDao {
 
-	// Notes "datastore"
-	private Map<Integer, Note> noteData = new HashMap<Integer, Note>();
+	private static final Logger logger = LoggerFactory
+			.getLogger(NoteDaoImpl.class);
+
+	@Autowired
+	private NoteMapper noteMapper;
 
 	@Override
 	public Note getNote(Integer id) {
-		return noteData.get(id);
+		return noteMapper.getNote(id);
 	}
 
 	@Override
 	public List<Note> getAllNotes(String query) {
-		List<Note> notes = new ArrayList<Note>();
-		Set<Integer> noteIdKeys = noteData.keySet();
-		Note note;
-		for (Integer i : noteIdKeys) {
-			note = noteData.get(i);
-			if (query == null || (query != null && note.getBody().contains(query))) {
-				notes.add(noteData.get(i));
-			}
-		}
-		return notes;
+		return noteMapper.getAllNotes(query);
 	}
 
 	@Override
-	public Note createNote(String body) {
-		Integer id = noteData.size();
-		Note note = new Note(id, body);
-		noteData.put(id, note);
+	public Note insertNote(Note note) {
+		logger.info("Inserting note into DB with body [{}]", note.getBody());
+		noteMapper.insertNote(note);
+		logger.info("Note with id [{}] and body [{}] SUCCESSFULLY inserted",
+				note.getId(), note.getBody());
 		return note;
 	}
 

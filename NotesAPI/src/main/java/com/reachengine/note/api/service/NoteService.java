@@ -26,8 +26,8 @@ public class NoteService {
 		return noteDao.getAllNotes(query);
 	}
 
-	public Note createNote(String body) {
-		return noteDao.createNote(body);
+	public Note createNote(Note note) {
+		return noteDao.insertNote(note);
 	}
-
+	
 }

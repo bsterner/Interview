@@ -55,12 +55,10 @@ public class NoteController {
 		return notes;
 	}
 
-	@RequestMapping(value = GET_ALL_NOTES_URI, method = RequestMethod.POST,
-			consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = GET_ALL_NOTES_URI, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Note createNote(@RequestBody Note note) {
 		logger.info("Creating note with body [{}]", note.getBody());
-		Note createdNote = noteService.createNote(note.getBody());
+		Note createdNote = noteService.createNote(note);
 		return createdNote;
 	}
 
